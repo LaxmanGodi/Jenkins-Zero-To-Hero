@@ -79,5 +79,11 @@ pipeline {
         }
       }
     }
+  stage('Cleanup') {
+    steps {
+            cleanWs() // Deletes the workspace before starting a new build
+
+          }
+      }
   }
 }
