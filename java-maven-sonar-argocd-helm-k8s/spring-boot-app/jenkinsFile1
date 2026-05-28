@@ -23,13 +23,23 @@ pipeline {
   stage('Diagnostics') {
     steps {
         sh '''
+            echo "Checking Java..."
             java -version
+            
+            echo "Checking Maven..."
             mvn -version
-            echo $JAVA_HOME
-            mvn help:effective-pom | grep -i sonar -n
+            
+            echo "Running effective-pom..."
+            # Capture the exit code of the maven command
+            mvn help:effective-pom > effective_pom.xml
+            echo "Maven exit code: $?"
+            
+            echo "Searching for sonar..."
+            grep -i sonar -n effective_pom.xml
+            echo "Grep exit code: $?"
         '''
-      }
     }
+}
     stage('Static Code Analysis') {
       environment {
         SONAR_URL = "http://172.17.0.1:9000"
