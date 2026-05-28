@@ -6,12 +6,11 @@ pipeline {
     }
   }
 stages {
-        stage('Clean Workspace') {
+    stage('Clean Workspace') {
             steps {
                 cleanWs() // This wipes the slate clean every time
             }
         }
-  stages {
     stage('Checkout') {
       steps {
         sh 'echo passed'
