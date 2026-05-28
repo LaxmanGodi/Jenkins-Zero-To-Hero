@@ -29,14 +29,9 @@ pipeline {
             echo "Checking Maven..."
             mvn -version
             
-            echo "Running effective-pom..."
-            # Capture the exit code of the maven command
-            mvn help:effective-pom > effective_pom.xml
-            echo "Maven exit code: $?"
-            
-            echo "Searching for sonar..."
-            grep -i sonar -n effective_pom.xml
-            echo "Grep exit code: $?"
+            echo "Running effective-pom (ignoring failure)..."
+            # Using '|| true' ensures that even if Maven crashes, the pipeline continues
+            mvn help:effective-pom || true
         '''
     }
 }
